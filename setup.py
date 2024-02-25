@@ -6,7 +6,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name = 'stcp_api',
-    version = '0.1.1',
+    version = '1.0.0',
     author = 'Guilherme Borges',
     author_email = 'g@guilhermeborges.net',
     description = 'Unofficial API to retrieve STCP information for public transit buses in Porto, Portugal',
