@@ -6,7 +6,7 @@ Retrieves static data about lines, stops, locations, and real-time estimates of 
 
 Since it's based on a non-official API, it may stop working in the future. Confirmed working as of 24 February 2024.
 
-See the file at `src/stcp/api.py` for the complete documentation.
+See the file at `stcp/api.py` for the complete documentation.
 
 ## Available operations
 
