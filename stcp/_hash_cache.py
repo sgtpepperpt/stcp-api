@@ -3,7 +3,7 @@ import csv
 
 def write_hash_file(filename='hash.tmp'):
     from stcp._primitives import get_stop_hash
-    from stcp._util import get_all_stops
+    from stcp.util import get_all_stops
 
     # we need to get all STCP stops to then get their hashes
     all_stops = get_all_stops()
