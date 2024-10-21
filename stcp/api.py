@@ -1,7 +1,7 @@
 from typing import List, Dict
 
 
-def get_lines() -> List[Dict]:
+def get_lines() -> List[Dict[str, str]]:
     """
     Get a list of all STCP lines.
 
@@ -16,7 +16,7 @@ def get_lines() -> List[Dict]:
     } for line in get_lines()]
 
 
-def get_line_directions(line_code: str) -> List[Dict]:
+def get_line_directions(line_code: str) -> List[Dict[str, str]]:
     """
     Get a list of directions (usually 2) of a line.
 
@@ -35,7 +35,7 @@ def get_line_directions(line_code: str) -> List[Dict]:
     } for direction in get_line_directions(internal_line_code)]
 
 
-def get_line_stops(line_code: str, direction_code: str) -> List[Dict]:
+def get_line_stops(line_code: str, direction_code: str) -> List[Dict[str, str]]:
     """
     Get a list of all stops of a line. Direction is important as not all lines are "symmetrical".
 
@@ -57,7 +57,7 @@ def get_line_stops(line_code: str, direction_code: str) -> List[Dict]:
     } for stop in get_line_stops(internal_line_code, direction_code)]
 
 
-def get_stop_data(stop_code) -> Dict:
+def get_stop_data(stop_code: str) -> Dict[str, str | Dict[str, str]]:
     """
     Get information about a stop, including a list of all the lines that pass through it.
 
@@ -90,7 +90,7 @@ def get_stop_data(stop_code) -> Dict:
     }
 
 
-def get_stop_real_times(stop_code: str, use_hash_cache=True) -> List[Dict]:
+def get_stop_real_times(stop_code: str, use_hash_cache: bool = True) -> List[Dict[str, str]]:
     """
     Get a real-time list of buses passing through a stop soon (up to one hour from the current time).
 

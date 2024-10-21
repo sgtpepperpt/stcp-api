@@ -1,4 +1,6 @@
 import json
+import urllib
+
 import requests
 
 
@@ -43,6 +45,10 @@ def get_stop_real_times(stop_code, hash_code):
 
     r = requests.get(f'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo={stop_code}&linha=0&hash123={hash_code}', verify=False)
     parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
+
+    if 'Serviço temporáriamente indisponivel' in parsed_page.text:
+        r = requests.get(f'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo={stop_code}&linha=0&dummy1={hash_code}', verify=False)
+        parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
 
     if parsed_page.find(class_='msgBox warning'):
         # TODO check for an occasion where the cached hash might not work; in that case invalidate it

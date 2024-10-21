@@ -32,5 +32,5 @@ and [examples.md](examples.md) for usage examples.
 
 To be able to get a stop's real-time departures, a "hash" is needed, which can be obtained by scraping STCP's webpage.
 These hashes are stored in a local CSV cache for efficiency purposes, which is generated on the first execution.
-However, the cache can be disabled, and the hash request can be made on the fly, by passing `use_hash_cache=False` to
+However, the cache can be disabled, and the hash request can be made on-the-fly, by passing `use_hash_cache=False` to
 the _get_stop_real_times_ function.
