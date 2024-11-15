@@ -7,6 +7,9 @@ import requests
 # TODO should not be needed to disable SSL, but after several tries seems to be a problem with STCP's certificate,
 # as all environments tested worked with several sites but this one
 import urllib3
+
+from stcp._util import get_real_time_url
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -39,16 +42,23 @@ def get_stop_data(stop_code):
     r = requests.get(f'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname={stop_code}', verify=False)
     return json.loads(r.content.decode())[0]  # there should be always one dictionary only
 
-
 def get_stop_real_times(stop_code, hash_code):
     from bs4 import BeautifulSoup
 
-    r = requests.get(f'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo={stop_code}&linha=0&hash123={hash_code}', verify=False)
+    correct_filename = None
+
+    for filename in ['soapclient', 'soapclient_e23c41']:
+        r = requests.get(get_real_time_url(stop_code, hash_code, meta_filename=filename), verify=False)
+        if r.status_code == 200:
+            correct_filename = filename
+            break
+
     parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
 
-    if 'Serviço temporáriamente indisponivel' in parsed_page.text:
-        r = requests.get(f'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo={stop_code}&linha=0&dummy1={hash_code}', verify=False)
-        parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
+    for hash_key in ['dummy1', 'dummy2451']:
+        if 'Serviço temporáriamente indisponivel' in parsed_page.text:
+            r = requests.get(get_real_time_url(stop_code, hash_code, meta_hash_key=hash_key, meta_filename=correct_filename), verify=False)
+            parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
 
     if parsed_page.find(class_='msgBox warning'):
         # TODO check for an occasion where the cached hash might not work; in that case invalidate it
