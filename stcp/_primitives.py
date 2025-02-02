@@ -47,7 +47,7 @@ def get_stop_real_times(stop_code, hash_code):
 
     correct_filename = None
 
-    for filename in ['soapclient', 'soapclient_e23c41']:
+    for filename in ['soapclient', 'soapclient_b64a55e']:
         r = requests.get(get_real_time_url(stop_code, hash_code, meta_filename=filename), verify=False)
         if r.status_code == 200:
             correct_filename = filename
