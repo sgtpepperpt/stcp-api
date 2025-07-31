@@ -4,7 +4,7 @@ Unofficial API to retrieve STCP information for public transit buses in Porto, P
 
 Retrieves static data about lines, stops, locations, and real-time estimates of bus arrivals.
 
-Since it's based on a non-official API, it may stop working in the future. Confirmed working as of 24 February 2024.
+Since it's based on a non-official API, it may stop working in the future. Confirmed working as of 31 July 2025.
 
 See the files at [stcp/api.py](stcp/api.py) and [stcp/util.py](stcp/util.py) for the complete documentation,
 and [examples.md](examples.md) for usage examples.

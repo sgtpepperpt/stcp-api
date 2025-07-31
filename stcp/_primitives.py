@@ -48,17 +48,19 @@ def get_stop_real_times(stop_code, hash_code):
     correct_filename = None
 
     for filename in ['soapclient', 'soapclient_b64a55e']:
-        r = requests.get(get_real_time_url(stop_code, hash_code, meta_filename=filename), verify=False)
+        r = requests.get(get_real_time_url(stop_code, hash_code, meta_filename=filename, meta_hash_key='p8321'), verify=False)
         if r.status_code == 200:
             correct_filename = filename
             break
 
     parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
 
-    for hash_key in ['dummy1', 'dummy2451']:
+    for hash_key in ['p8321', 'hash123', 'dummy1', 'dummy2451']:
         if 'Serviço temporáriamente indisponivel' in parsed_page.text:
             r = requests.get(get_real_time_url(stop_code, hash_code, meta_hash_key=hash_key, meta_filename=correct_filename), verify=False)
             parsed_page = BeautifulSoup(r.content.decode(), 'html.parser')
+        else:
+            break
 
     if parsed_page.find(class_='msgBox warning'):
         # TODO check for an occasion where the cached hash might not work; in that case invalidate it
