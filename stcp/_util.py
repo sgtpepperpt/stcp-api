@@ -1,16 +1,13 @@
-def get_internal_line_code(line_code: str):
+def get_internal_route_code(route_slug: str):
     """
-    Converts the human-readable line code into the internal one (e.g. ZC -> 107)
-    :param line_code: the human-readable line code
-    :return: the internal line code
+    Converts the human-readable route code into the internal one (e.g. ZC -> 107)
+    :param route_slug: the human-readable route code
+    :return: the internal route_id
     """
-    from stcp._primitives import get_lines
+    from stcp.routes import get_routes
 
-    for line in get_lines():
-        if line['pubcode'] == line_code:
-            return line['code']
+    for route in get_routes():
+        if route['route_slug'] == route_slug:
+            return route['route_id']
 
-    raise Exception('Invalid line code')
-
-def get_real_time_url(stop_code, hash_code, meta_hash_key='hash123', meta_filename='soapclient'):
-    return f'https://www.stcp.pt/pt/itinerarium/{meta_filename}.php?codigo={stop_code}&linha=0&{meta_hash_key}={hash_code}'
+    raise Exception('Invalid route code')

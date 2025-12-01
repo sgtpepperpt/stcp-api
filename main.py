@@ -1,18 +1,23 @@
-from stcp.api import get_stop_real_times, get_lines, get_line_directions, get_stop_data, get_line_stops
-from stcp.util import follow_line, stop_departures, get_all_stops
+from stcp.routes import get_route_schedule, get_route_real_time, get_route_stops, get_route_services, get_routes, get_route_directions
+from stcp.stops import get_stops, get_stop_data, get_stop_real_time, get_stop_schedule
+from stcp.util import get_route_data, get_stop_route_departures, get_full_route_times
 
 # API examples
-all_lines = get_lines()
-line_directions = get_line_directions('903')
-line_stops = get_line_stops('903', '0')
-stop_data = get_stop_data('TRD1')
-next_buses = get_stop_real_times('TRD1')
+route_slug = '207'
+all_routes = get_routes()
+directions = get_route_directions(route_slug)
+r_stops = get_route_stops(route_slug, '0')
+services = get_route_services(route_slug)
+route_sched = get_route_schedule(route_slug, '0')
+route_trip = get_route_real_time(route_slug, '0')
 
+stop_id = 'CMP1'
+all_stops = get_stops()
+stop_datas = get_stop_data(stop_id)
+stop_sched = get_stop_schedule(stop_id)
+next_buses = get_stop_real_time(stop_id)
 
 # utility examples
-# all_stops = get_all_stops()
-next_departures = stop_departures('TRD1')
-
-times = follow_line('903', '1')
-for time in times:
-    print(f'{time[0]: <25} {time[1]}')
+route_d = get_route_data(route_slug)
+next_departures = get_stop_route_departures(stop_id)
+times = get_full_route_times(route_slug, '0')
