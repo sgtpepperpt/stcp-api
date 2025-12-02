@@ -1,23 +1,24 @@
 from stcp import _primitives
 
 
-def get_stops() -> set[str]:
+def get_stops() -> list[dict[str, str]]:
     """
     Returns a set of all STCP stop codes across all routes.
-    :return: a set of all STCP stop codes
+    :return: a set of all STCP stop codes and names
     """
     from stcp.routes import get_routes, get_route_stops, get_route_directions
 
-    all_stops = set()
+    all_stops = []
 
     for route in get_routes():
-        for direction in get_route_directions(route['route_id']):
-            direction_stops = get_route_stops(route['route_id'], direction['direction_id'])
+        for direction in get_route_directions(route['route_slug']):
+            for stop in get_route_stops(route['route_slug'], direction['direction_id']):
+                if len([s for s in all_stops if s['stop_id'] == stop['stop_id']]) > 0:
+                    continue
 
-            for stop in direction_stops:
-                all_stops.add({
+                all_stops.append({
                     'stop_id': stop['stop_id'],
-                    'name': stop['stop_name']
+                    'name': stop['name']
                 }) # TODO there is a stop in Maia called . with code .
 
     return all_stops
