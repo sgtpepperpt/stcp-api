@@ -14,17 +14,21 @@ def get_stops() -> list[dict[str, str]]:
         for direction in get_route_directions(route['route_slug']):
             for stop in get_route_stops(route['route_slug'], direction['direction_id']):
                 if len([s for s in all_stops if s['stop_id'] == stop['stop_id']]) > 0:
+                    # stop is already added
                     continue
 
                 all_stops.append({
                     'stop_id': stop['stop_id'],
                     'name': stop['name']
-                }) # TODO there is a stop in Maia called . with code .
+                })
 
     return all_stops
 
 
 def get_stop_data(stop_id: str):
+    if stop_id == '.':
+        return {}  # TODO there is a stop in Maia called . with code .
+
     data = _primitives.get_stop_data(stop_id)
     data['routes'] = _primitives.get_stop_routes(stop_id)
     for route in data['routes']:
